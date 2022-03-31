@@ -1,51 +1,37 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import CardList from "./components/card-list/card-list.component";
 import SearchBox from "./components/search-box/search-box.component";
 
-class App extends Component {
-  constructor() {
-    super();
+const App = () => {
+  const [monsters, setMonsters] = useState([]);
+  const [searchField, setSearchField] = useState("");
 
-    this.state = {
-      monsters: [],
-      searchField: "",
-    };
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users/")
       .then((response) => response.json())
-      .then((data) => {
-        this.setState(() => {
-          return { monsters: data };
-        });
-      });
-  }
+      .then((data) => setMonsters(data));
+  }, []);
 
-  onSearchChange = (event) => {
-    this.setState(() => {
-      return { searchField: event.target.value.toLowerCase() };
-    });
+  const filteredMonsters = monsters.filter((monster) => {
+    return monster.name.toLowerCase().includes(searchField);
+  });
+
+  const onSearchChange = (event) => {
+    setSearchField(event.target.value.toLowerCase());
   };
 
-  render() {
-    const { monsters, searchField } = this.state;
-    const filteredMonsters = monsters.filter((monster) => {
-      return monster.name.toLowerCase().includes(searchField);
-    });
+  return (
+    <div className="App">
+      <h1 className="app-title">Monsters Rolodex</h1>
+      <SearchBox
+        className="monsters-search-box"
+        onChangeHandler={onSearchChange}
+        placeholder="search-monsters"
+      />
+      <CardList monsters={filteredMonsters} />
+    </div>
+  );
+};
 
-    return (
-      <div className="App">
-        <SearchBox
-          className="monsters-search-box"
-          onChangeHandler={this.onSearchChange}
-          placeholder="search-monsters"
-        />
-
-        <CardList monsters={filteredMonsters} />
-      </div>
-    );
-  }
-}
 export default App;

@@ -1,4 +1,5 @@
 import { Component } from "react";
+import "./card.styles.css";
 
 export default class Card extends Component {
   render() {
@@ -9,7 +10,7 @@ export default class Card extends Component {
           src={`https://robohash.org/${id}?set=set2&size=180x180`}
           alt={`monster ${name}`}
         />
-        <h1>{name}</h1>
+        <h1 className="">{name}</h1>
         <p>{email}</p>
       </div>
     );
