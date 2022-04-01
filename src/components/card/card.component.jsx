@@ -1,6 +1,7 @@
 import "./card.styles.css";
 
 const Card = ({ monster }) => {
+  //same as const { monster } = props;
   const { name, email, id } = monster;
   return (
     <div className="card-container">
@@ -8,7 +9,7 @@ const Card = ({ monster }) => {
         src={`https://robohash.org/${id}?set=set2&size=180x180`}
         alt={`monster ${name}`}
       />
-      <h1 className="">{name}</h1>
+      <h1>{name}</h1>
       <p>{email}</p>
     </div>
   );
